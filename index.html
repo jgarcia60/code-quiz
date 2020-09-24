@@ -17,10 +17,10 @@
         <nav class="container-fluid">
             <section class="row justify-content-md-center">
                 <section class=col-sm-2>
-                    <h6>View Highscores</h3>
+                    <a id="highScores" href="">View Highscores</a>
                 </section>
                 <section class="col-sm-8"></section>
-                <section class="col-sm-2">
+                <section class="col-sm-2" id="time">
                     Time: 
                 </section>
             </section>
@@ -31,13 +31,20 @@
             <section class="row">
                 <section class="col-md-3"></section>
                 <section class="col-md-6">
-                    <h1>Question Title</h1>
+                    <h1 id="questionTitle">Coding Quiz Challenge</h1>
                 </section>
             </section>
             <section class="row">
                 <section class="col-md-3"></section>
                 <section class="col-md-6">
-                    <ol>
+                    <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+                </section>
+            </section>
+            <section class="row">
+                <section class="col-md-3"></section>
+                <section class="col-md-6" id="buttons">
+                    <button id="startButton">Start Quiz</button>
+                    <!-- <ol>
                         <li>
                             <button>option 1</button>
                         </li>
@@ -50,7 +57,7 @@
                         <li>
                             <button>option 4</button>
                         </li>
-                    </ol>
+                    </ol> -->
                 </section>
             </section>
         </main>
