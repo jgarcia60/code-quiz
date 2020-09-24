@@ -12,47 +12,48 @@ var questionWrong = false;
 var quiz = [
     {
         question: "Which of the following are valid JavaScript data types?",
-        answers: {
-            a: "Boolean",
-            b: "String",
-            c: "Number",
-            d: "All of the above",
-        }, 
-        correctAnswer: "d"
+        answers: [
+            "Boolean",
+            "String",
+            "Number",
+            "All of the above",
+        ], 
+        correctAnswer: 3
     },
 
     {
         question: "What is the correct syntax for including a JavaScript file named content.js with a script tag in the head of an HTML file, where both files are in the same local directory?",
-        answers: {
-            a: "<script src=\"content.js\" type=\"text/javascript\" />",
-            b: "<link href=\"content.js\" rel=\"script/javascript\" type=\"javascript\" />",
-            c: "<script src=\"content.js\" type=\"text/javascript\"></script>",
-            d: "<script src=\"content.js\" type=\"javascript\"></script>",
-        },
-        correctAnswer: "c"
+        answers: [
+            "<script src=\"content.js\" type=\"text/javascript\" />",
+            "<link href=\"content.js\" rel=\"script/javascript\" type=\"javascript\" />",
+            "<script src=\"content.js\" type=\"text/javascript\"></script>",
+            "<script src=\"content.js\" type=\"javascript\"></script>",
+        ],
+        correctAnswer: 2
     },
     {
         question: "Given the array arr = [4, 7, 3, 9], what would arr[arr.length] output?",
-        answers: {
-            a: "9",
-            b: "undefined",
-            c: "-1",
-            d: "3"
-        },
-        correctAnswer: "b"
+        answers: [
+            "9",
+            "undefined",
+            "-1",
+            "3"
+        ],
+        correctAnswer: 1
     },
     {
         question: "The condition in an if/else statement is enclosed by ______.",
-        answers: {
-            a: "{}",
-            b: "()",
-            c: "[]",
-            d: "<>"
-        },
-        correctAnswer: "b"
+        answers: [
+            "{}",
+            "()",
+            "[]",
+            "<>"
+        ],
+        correctAnswer: 1
     },
 
 ];
+// console.log(quiz[1].answers[2]);
 
 var sc
 //function for timer (start quiz)
@@ -60,13 +61,14 @@ var sc
 //if all questions are submitted, quiz is over
 //save score
 
-function startTimer() {
+function startQuiz() {
     if (time == 0) {
         //game over
     }
     interval = setInterval(function(){
         time--;
         document.getElementById("time").textContent = "Time: " + time;
+        //probably want this if/else outside of the interval. needs to go on the event listener for each question
         if (questionWrong) {
             if (time <= 10) {
                 //game over
@@ -75,6 +77,23 @@ function startTimer() {
             }
         }
     }, 1000);
+
+    var i = 0;
+    while (time > 0) {
+        var q = quiz[i].question;
+        secondRow.textContent = q.question;
+        var ol = document.createElement("ol");
+            //not sure if this for loop will work or if i can use quiz[i].question.answers
+        for (var j = 0; j < quiz[i].answers.length; j++) {
+            var li = document.createElement("li");
+            var btn = document.createElement("button");
+            btn.textContent = quiz[i].answers[j];
+            li.appendChild(btn);
+            ol.appendChild(li);
+        }
+        btnEls.addEventListener("click", nextQuestion);
+        i++;
+    }   
 }
 
 //go back to code quiz function
@@ -101,5 +120,13 @@ function viewScores() {
 //   that decrements the time if question is incorrect
 //   update score to local storage
 
-start.addEventListener("click", startTimer);
+function nextQuestion() {
+    if(event.target.matches("button")) {
+        //check the data-index attribute of the button and compare
+        //with the index of the answer
+    }
+})
+
+
+start.addEventListener("click", startQuiz);
 highScores.addEventListener("click", viewScores);
