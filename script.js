@@ -11,3 +11,4 @@
 //   that decrements the time if question is incorrect
 //   update score to local storage
 
+console.log("hello world");
