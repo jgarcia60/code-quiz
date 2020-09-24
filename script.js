@@ -10,6 +10,7 @@ var time = 100;
 var scores = ["JG - 22"];
 var questionWrong = false;
 var quizIndex = 0;
+var currentScore;
 var quiz = [
     {
         question: "Which of the following are valid JavaScript data types?",
@@ -65,7 +66,8 @@ var sc
 
 function startQuiz() {
     if (time == 0) {
-        //game over
+        clearInterval(interval);
+        currentScore = 0;
     }
     interval = setInterval(function(){
         time--;
@@ -139,6 +141,30 @@ function nextQuestion(event) {
         //check the data-index attribute of the button and compare
         //with the index of the answer
         quizIndex++;
+        secondRow.textContent = quiz[quizIndex].question;
+        var ol = document.createElement("ol");
+            //not sure if this for loop will work or if i can use quiz[i].question.answers
+        for (var j = 0; j < quiz[quizIndex].answers.length; j++) {
+            // changing start button to the first answer 
+            if (j == 0) {
+                var li = document.createElement("li");
+                start.textContent = quiz[quizIndex].answers[j];
+                li.append(start);
+                start.setAttribute("index", j);
+                ol.appendChild(li);
+                continue;
+            }
+            var li = document.createElement("li");
+            var btn = document.createElement("button");
+
+            btn.setAttribute("index", j);
+            btn.textContent = quiz[quizIndex].answers[j];
+
+            li.appendChild(btn);
+            ol.appendChild(li);
+        }
+        buttons.appendChild(ol);
+        btnEls.addEventListener("click", nextQuestion(quizIndex));
     }
 };
 
