@@ -70,22 +70,25 @@ function startQuiz() {
         currentScore = 0;
     }
     interval = setInterval(function(){
+        $("startButton").remove();
         time--;
         document.getElementById("time").textContent = "Time: " + time;
         //probably want this if/else outside of the interval. needs to go on the event listener for each question
         if (questionWrong) {
-            if (time <= 10) {
+            if (time <= 15) {
                 //game over
             } else {
-                time -= 10;
+                time -= 15;
             }
         }
     }, 1000);
 
     
     while (time > 0) {
-        
-        secondRow.textContent = quiz[quizIndex].question;
+        $("#buttons").empty();
+        // $("startButton").remove();
+        // start.setAttribute("display", none);
+        secondRow.textContent = quiz[0].question;
         var ol = document.createElement("ol");
             //not sure if this for loop will work or if i can use quiz[i].question.answers
         for (var j = 0; j < quiz[0].answers.length; j++) {
@@ -108,7 +111,8 @@ function startQuiz() {
             ol.appendChild(li);
         }
         buttons.appendChild(ol);
-        btnElss.addEventListener("click", nextQuestion);
+        quizIndex++;
+        btnEls.addEventListener("click", nextQuestion);
         // btnEls.addEventListener("click", nextQuestion(quizIndex));
     
     }   
@@ -167,8 +171,9 @@ function nextQuestion(event) {
             ol.appendChild(li);
         }
         buttons.appendChild(ol);
-        btnEls.addEventListener("click", nextQuestion(quizIndex));
+
         quizIndex++;
+        btnEls.addEventListener("click", nextQuestion(quizIndex));
     }
 };
 
