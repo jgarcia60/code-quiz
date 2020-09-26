@@ -68,6 +68,8 @@ function startQuiz() {
     if (time == 0) {
         clearInterval(interval);
         currentScore = 0;
+        questionTitle.textContent = "All done!";
+        //code for form to request initials and save score
     }
     interval = setInterval(function(){
         $("startButton").remove();
@@ -81,11 +83,12 @@ function startQuiz() {
                 time -= 15;
             }
         }
-    }, 1000);
 
-    
-    while (time > 0) {
-        $("#buttons").empty();
+
+        
+    }, 1000);  
+
+    $("#buttons").empty();
         // $("startButton").remove();
         // start.setAttribute("display", none);
         secondRow.textContent = quiz[0].question;
@@ -113,14 +116,6 @@ function startQuiz() {
         buttons.appendChild(ol);
         quizIndex++;
         btnEls.addEventListener("click", nextQuestion);
-        // btnEls.addEventListener("click", nextQuestion(quizIndex));
-    
-    }   
-}
-
-//go back to code quiz function
-function goBack() {
-
 }
 
 //for a split second shows the correct words but quickly defaults back to original html content
@@ -143,7 +138,9 @@ function viewScores() {
 //   update score to local storage
 
 function nextQuestion(event) {
+    // $("#buttons").empty();
     if(event.target.matches("button")) {
+        $("#buttons").empty();
         //check the data-index attribute of the button and compare
         //with the index of the answer
         // start.setAttribute("display", "none");
