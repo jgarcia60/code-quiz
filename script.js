@@ -89,14 +89,14 @@ function startQuiz() {
             //not sure if this for loop will work or if i can use quiz[i].question.answers
         for (var j = 0; j < quiz[quizIndex].answers.length; j++) {
             // changing start button to the first answer 
-            if (j == 0) {
-                var li = document.createElement("li");
-                start.textContent = quiz[quizIndex].answers[j];
-                li.append(start);
-                start.setAttribute("index", j);
-                ol.appendChild(li);
-                continue;
-            }
+            // if (j == 0) {
+            //     var li = document.createElement("li");
+            //     start.textContent = quiz[quizIndex].answers[j];
+            //     li.append(start);
+            //     start.setAttribute("index", j);
+            //     ol.appendChild(li);
+            //     continue;
+            // }
             var li = document.createElement("li");
             var btn = document.createElement("button");
 
@@ -136,37 +136,38 @@ function viewScores() {
 //   that decrements the time if question is incorrect
 //   update score to local storage
 
-function nextQuestion(event) {
-    if(event.target.matches("button")) {
-        //check the data-index attribute of the button and compare
-        //with the index of the answer
-        quizIndex++;
-        secondRow.textContent = quiz[quizIndex].question;
-        var ol = document.createElement("ol");
-            //not sure if this for loop will work or if i can use quiz[i].question.answers
-        for (var j = 0; j < quiz[quizIndex].answers.length; j++) {
-            // changing start button to the first answer 
-            if (j == 0) {
-                var li = document.createElement("li");
-                start.textContent = quiz[quizIndex].answers[j];
-                li.append(start);
-                start.setAttribute("index", j);
-                ol.appendChild(li);
-                continue;
-            }
-            var li = document.createElement("li");
-            var btn = document.createElement("button");
+// function nextQuestion(event) {
+//     if(event.target.matches("button")) {
+//         //check the data-index attribute of the button and compare
+//         //with the index of the answer
+//         // start.setAttribute("display", "none");
+//         quizIndex++;
+//         secondRow.textContent = quiz[quizIndex].question;
+//         var ol = document.createElement("ol");
+//             //not sure if this for loop will work or if i can use quiz[i].question.answers
+//         for (var j = 0; j < quiz[quizIndex].answers.length; j++) {
+//             // changing start button to the first answer 
+//             // if (j == 0) {
+//             //     var li = document.createElement("li");
+//             //     start.textContent = quiz[quizIndex].answers[j];
+//             //     li.append(start);
+//             //     start.setAttribute("index", j);
+//             //     ol.appendChild(li);
+//             //     continue;
+//             // }
+//             var li = document.createElement("li");
+//             var btn = document.createElement("button");
 
-            btn.setAttribute("index", j);
-            btn.textContent = quiz[quizIndex].answers[j];
+//             btn.setAttribute("index", j);
+//             btn.textContent = quiz[quizIndex].answers[j];
 
-            li.appendChild(btn);
-            ol.appendChild(li);
-        }
-        buttons.appendChild(ol);
-        btnEls.addEventListener("click", nextQuestion(quizIndex));
-    }
-};
+//             li.appendChild(btn);
+//             ol.appendChild(li);
+//         }
+//         buttons.appendChild(ol);
+//         btnEls.addEventListener("click", nextQuestion(quizIndex));
+//     }
+// };
 
 
 start.addEventListener("click", startQuiz);
