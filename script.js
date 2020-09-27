@@ -79,28 +79,30 @@ function startQuiz() {
         
     // only setting first question up in here with creating elements.
     // after this, each created button element will just be updated 
-    secondRow.textContent = quiz[0].question;
-    // console.log(quiz[0].question);
-    var ol = document.createElement("ol");
-    ol.setAttribute("id", "ol");
+    if (quizIndex == 0) {
+        secondRow.textContent = quiz[0].question;
+        // console.log(quiz[0].question);
+        var ol = document.createElement("ol");
+        ol.setAttribute("id", "ol");
         //not sure if this for loop will work or if i can use quiz[i].question.answers
-    for (var j = 0; j < quiz[0].answers.length; j++) {
-        // create list elements and button elements 
-        var li = document.createElement("li");
-        var btn = document.createElement("button");
+        for (var j = 0; j < quiz[quizIndex].answers.length; j++) {
+            // create list elements and button elements 
+            var li = document.createElement("li");
+            var btn = document.createElement("button");
 
-        // setting an id to act as the index 
-        btn.setAttribute("id", j);
+            // setting an id to act as the index 
+            btn.setAttribute("id", j);
 
-        // btn.setAttribute("data-index", j);
-        btn.textContent = quiz[0].answers[j];
+            // btn.setAttribute("data-index", j);
+            btn.textContent = quiz[quizIndex].answers[j];
 
-        li.appendChild(btn);
-        ol.appendChild(li);
-        
+            li.appendChild(btn);
+            ol.appendChild(li);
+            
+        }
+        buttons.appendChild(ol);
     }
-    buttons.appendChild(ol);
-    
+
     ol.addEventListener("click", nextQuestion);
 }
 
@@ -126,9 +128,10 @@ function viewScores() {
 function nextQuestion(event) {
   
     if(event.target.matches("button")) {
-        
+    
         // Check the clicked-button's id and compare with the 
         // correct answer
+        var selected = event.target.getAttribute("id");
         if (selected == quiz[quizIndex].correctAnswer) {
             var status = document.getElementById("rightOrWrong");
             status.textContent = "Correct!";
@@ -137,9 +140,10 @@ function nextQuestion(event) {
 
             var status = document.getElementById("rightOrWrong");
             status.textContent = "Wrong!";
-        }
+        };
         document.getElementById("status").style.display = "block";
-        if (quizIndex == 3) {
+        quizIndex++;
+        if (quizIndex == 4) {
             clearInterval(interval);
             currentScore = 0;
             questionTitle.textContent = "All done!";
@@ -158,11 +162,9 @@ function nextQuestion(event) {
                 console.log(btn);
                 
             }
-            var selected = event.target.getAttribute("id");
-            console.log(selected);
+            // var selected = event.target.getAttribute("id");
+            // console.log(selected);
             
-            
-            quizIndex++;
         }
         
         
@@ -172,4 +174,4 @@ function nextQuestion(event) {
 
 start.addEventListener("click", startQuiz);
 highScores.addEventListener("click", viewScores);
-ol.addEventListener("click", nextQuestion);
+// document.getElementById("ol").addEventListener("click", nextQuestion);
