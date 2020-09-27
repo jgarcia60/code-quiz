@@ -10,3 +10,15 @@ h1, p {
 #time {
     text-align: right;
 }
+
+#status {
+    display: none;
+    text-align: left;
+    color: lightgray;
+}
+
+#rightOrWrong {
+    text-align: left;
+    color: lightgray;
+    margin-left: 5%;
+}

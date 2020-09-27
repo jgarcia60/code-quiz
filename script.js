@@ -55,72 +55,53 @@ var quiz = [
     },
 
 ];
-// console.log(quiz[0].question);
-// console.log(quiz[1].answers[2]);
 
-var sc
-//function for timer (start quiz)
-//if timer runs out, quiz is over
-//if all questions are submitted, quiz is over
-//save score
+
+
 
 function startQuiz() {
-    if (time == 0) {
-        clearInterval(interval);
-        currentScore = 0;
-        questionTitle.textContent = "All done!";
-        //code for form to request initials and save score
-    }
+    
     interval = setInterval(function(){
+        if (time == 0) {
+            clearInterval(interval);
+            currentScore = 0;
+            questionTitle.textContent = "All done!";
+            secondRow.textContent = "Please enter your initials and save your score!";
+            //code for form to request initials and save score
+        }
         $("startButton").remove();
         time--;
         document.getElementById("time").textContent = "Time: " + time;
-        //probably want this if/else outside of the interval. needs to go on the event listener for each question
-        if (questionWrong) {
-            if (time <= 15) {
-                //game over
-            } else {
-                time -= 15;
-            }
-        }
-
-
-        
+                
     }, 1000);  
 
     $("#buttons").empty();
-        // $("startButton").remove();
-        // start.setAttribute("display", none);
-        secondRow.textContent = quiz[0].question;
-        // console.log(quiz[0].question);
-        var ol = document.createElement("ol");
-        ol.setAttribute("id", "ol");
-            //not sure if this for loop will work or if i can use quiz[i].question.answers
-        for (var j = 0; j < quiz[0].answers.length; j++) {
-            // changing start button to the first answer 
-            // if (j == 0) {
-            //     var li = document.createElement("li");
-            //     start.textContent = quiz[quizIndex].answers[j];
-            //     li.append(start);
-            //     start.setAttribute("index", j);
-            //     ol.appendChild(li);
-            //     continue;
-            // }
-            var li = document.createElement("li");
-            var btn = document.createElement("button");
-            btn.setAttribute("id", j);
+        
+    // only setting first question up in here with creating elements.
+    // after this, each created button element will just be updated 
+    secondRow.textContent = quiz[0].question;
+    // console.log(quiz[0].question);
+    var ol = document.createElement("ol");
+    ol.setAttribute("id", "ol");
+        //not sure if this for loop will work or if i can use quiz[i].question.answers
+    for (var j = 0; j < quiz[0].answers.length; j++) {
+        // create list elements and button elements 
+        var li = document.createElement("li");
+        var btn = document.createElement("button");
 
-            // btn.setAttribute("data-index", j);
-            btn.textContent = quiz[0].answers[j];
+        // setting an id to act as the index 
+        btn.setAttribute("id", j);
 
-            li.appendChild(btn);
-            ol.appendChild(li);
-            // console.log(btn.getElementById(toString(j)));
-            console.log(btn.getAttribute("id"));
-        }
-        buttons.appendChild(ol);
-        // quizIndex++;
-        ol.addEventListener("click", nextQuestion);
+        // btn.setAttribute("data-index", j);
+        btn.textContent = quiz[0].answers[j];
+
+        li.appendChild(btn);
+        ol.appendChild(li);
+        
+    }
+    buttons.appendChild(ol);
+    
+    ol.addEventListener("click", nextQuestion);
 }
 
 //for a split second shows the correct words but quickly defaults back to original html content
@@ -145,35 +126,50 @@ function viewScores() {
 function nextQuestion(event) {
   
     if(event.target.matches("button")) {
-        // $("#buttons").empty();
-        //check the data-index attribute of the button and compare
-        //with the index of the answer
-        // var element = event.target;
-        // var index = element.parentElement.getAttribute("index");
-        // console.log(index);
         
-        
-        secondRow.textContent = quiz[quizIndex].question;
-        // var j = 0; 
-        // while (j < 4) {
-        for (var j = 0; j < 4; j++) {
-           
-            // var ol = document.getElementById("ol");
-            // var items = document.getElementsByTagName('li');
-            
-            var btn = document.getElementById(j);
-            btn.textContent = quiz[quizIndex].answers[j];
-            console.log(btn);
-            // btn.textContent = quiz[quizIndex].answers[j];
-            // console.log(toString(j));
-            // console.log(btn.textContent);
+        // Check the clicked-button's id and compare with the 
+        // correct answer
+        if (selected == quiz[quizIndex].correctAnswer) {
+            var status = document.getElementById("rightOrWrong");
+            status.textContent = "Correct!";
+        } else {
+            time -= 10;
+
+            var status = document.getElementById("rightOrWrong");
+            status.textContent = "Wrong!";
         }
-        // buttons.appendChild(ol);
+        document.getElementById("status").style.display = "block";
+        if (quizIndex == 3) {
+            clearInterval(interval);
+            currentScore = 0;
+            questionTitle.textContent = "All done!";
+            secondRow.textContent = "Please enter your initials and save your score!";
+            //code for form to request initials and save score
+        } else {
+            // go to next question when an answer is clicked
+            secondRow.textContent = quiz[quizIndex].question;
+            // var j = 0; 
+            // while (j < 4) {
+            for (var j = 0; j < 4; j++) {
+                // grab each button by id to change the current multiple 
+                // choice answer to the updated question
+                var btn = document.getElementById(j);
+                btn.textContent = quiz[quizIndex].answers[j];
+                console.log(btn);
+                
+            }
+            var selected = event.target.getAttribute("id");
+            console.log(selected);
+            
+            
+            quizIndex++;
+        }
         
-        quizIndex++;
+        
     }
 };
 
 
 start.addEventListener("click", startQuiz);
 highScores.addEventListener("click", viewScores);
+ol.addEventListener("click", nextQuestion);
