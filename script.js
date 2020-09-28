@@ -5,9 +5,10 @@ var highScores = document.getElementById("highScores");
 var secondRow = document.getElementById("secondRow");
 var start = document.getElementById("startButton");
 var btnEls = document.getElementById("buttons");
+// var scoreInput = document.getElementById("staticEmail");
 var interval;
 var time = 100;
-var scores = ["JG - 22"];
+// var scores = ["JG - 22"];
 var questionWrong = false;
 var quizIndex = 0;
 var currentScore;
@@ -55,9 +56,15 @@ var quiz = [
     },
 
 ];
+var scores = [];
 
+// function init() {
+//     var storedScores = JSON.parse(localStorage.getItem("scores"));
 
-
+//     if (storedScores !== null) {
+//         scores = storedScores;
+//     }
+// }
 
 function startQuiz() {
     
@@ -108,7 +115,7 @@ function startQuiz() {
 
 //for a split second shows the correct words but quickly defaults back to original html content
 function viewScores() {
-    console.log("You clicked the scores");
+    // console.log("You clicked the scores");
     header.textContent = "High Scores";
     var listOfScores = document.createElement("ol");
     for (var i = 0; i < scores.length; i++) {
@@ -150,6 +157,7 @@ function nextQuestion(event) {
             secondRow.textContent = "Your final score is " + time;
             //code for form to request initials and save score
             createForm();
+            document.getElementById("form").addEventListener("submit", submitScore);
 
         } else {
             // go to next question when an answer is clicked
@@ -161,7 +169,7 @@ function nextQuestion(event) {
                 // choice answer to the updated question
                 var btn = document.getElementById(j);
                 btn.textContent = quiz[quizIndex].answers[j];
-                console.log(btn);
+                // console.log(btn);
                 
             }
             // var selected = event.target.getAttribute("id");
@@ -192,22 +200,42 @@ function createForm() {
 
     var inputEl = document.createElement("input");
     inputEl.setAttribute("type", "text");
-    inputEl.setAttribute("class", "form-control-plaintext");
-    inputEl.setAttribute("id", "staticEmail");
+    inputEl.setAttribute("class", "form-control");
+    inputEl.setAttribute("id", "inputText");
     divInput.appendChild(inputEl);
     formEl.appendChild(divInput);
 
     var btnDiv = document.createElement("button");
     btnDiv.setAttribute("type", "submit");
     btnDiv.setAttribute("class", "btn btn-primary mb-2");
+    btnDiv.setAttribute("id", "submitButton");
+    
     btnDiv.textContent = "Submit";
 
     formEl.appendChild(btnDiv);
 
     secondRow.appendChild(formEl);
+
+    // btnDiv.addEventListener("submit", submitScore);
+    
 }
+
+function submitScore(event){
+    event.preventDefault();
+    var scoreText = document.getElementById("inputText").value + " - " + time;
+    console.log(scoreText);
+
+
+    if (scoreText === "") {
+        return;
+    }
+
+    scores.push(scoreText);
+    document.getElementById("inputText").value = "";
+    localStorage.setItem("scores", JSON.stringify(scores));
+    window.location.href = "highScores.html";
+};
 
 
 start.addEventListener("click", startQuiz);
 highScores.addEventListener("click", viewScores);
-// document.getElementById("ol").addEventListener("click", nextQuestion);
