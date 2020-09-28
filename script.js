@@ -147,8 +147,10 @@ function nextQuestion(event) {
             clearInterval(interval);
             currentScore = 0;
             questionTitle.textContent = "All done!";
-            secondRow.textContent = "Please enter your initials and save your score!";
+            secondRow.textContent = "Your final score is " + time;
             //code for form to request initials and save score
+            createForm();
+
         } else {
             // go to next question when an answer is clicked
             secondRow.textContent = quiz[quizIndex].question;
@@ -170,6 +172,40 @@ function nextQuestion(event) {
         
     }
 };
+
+function createForm() {
+    $("#buttons").empty();
+    var formEl = document.createElement("form");
+    formEl.setAttribute("class", "form-group row");
+    formEl.setAttribute("id", "form");
+    
+
+    var labelEl = document.createElement("label");
+    labelEl.setAttribute("for", "staticEmail");
+    labelEl.setAttribute("class", "col-sm-2 col-form-label");
+    labelEl.textContent = "Enter initials:";
+    formEl.appendChild(labelEl);
+
+    var divInput = document.createElement("div");
+    divInput.setAttribute("class", "col-sm-5");
+    formEl.appendChild(divInput);
+
+    var inputEl = document.createElement("input");
+    inputEl.setAttribute("type", "text");
+    inputEl.setAttribute("class", "form-control-plaintext");
+    inputEl.setAttribute("id", "staticEmail");
+    divInput.appendChild(inputEl);
+    formEl.appendChild(divInput);
+
+    var btnDiv = document.createElement("button");
+    btnDiv.setAttribute("type", "submit");
+    btnDiv.setAttribute("class", "btn btn-primary mb-2");
+    btnDiv.textContent = "Submit";
+
+    formEl.appendChild(btnDiv);
+
+    secondRow.appendChild(formEl);
+}
 
 
 start.addEventListener("click", startQuiz);

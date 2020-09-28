@@ -22,3 +22,11 @@ h1, p {
     color: lightgray;
     margin-left: 5%;
 }
+
+#form {
+    padding-top: 10%;
+}
+
+#staticEmail {
+    border: black;
+}
