@@ -7,11 +7,13 @@ var start = document.getElementById("startButton");
 var btnEls = document.getElementById("buttons");
 // var scoreInput = document.getElementById("staticEmail");
 var interval;
+// initialize time 
 var time = 100;
-// var scores = ["JG - 22"];
 var questionWrong = false;
 var quizIndex = 0;
 var currentScore;
+
+// define the quiz array of objects 
 var quiz = [
     {
         question: "Which of the following are valid JavaScript data types?",
@@ -56,27 +58,17 @@ var quiz = [
     },
 
 ];
-// var scores = [];
-// console.log(typeof(scores));
-// init();
-// function init() {
-//     var scoreArray = localStorage.getItem("scores");
-
-//     // if (scores !== null) {
-//     //     scores = storedScores;
-//     // }
-// }
-
 function startQuiz() {
-    
+    // sets up time interval for quiz 
     interval = setInterval(function(){
         if (time == 0) {
             clearInterval(interval);
             currentScore = 0;
+            // changes text to reflect quiz is over 
             questionTitle.textContent = "All done!";
             secondRow.textContent = "Please enter your initials and save your score!";
-            //code for form to request initials and save score
         }
+        //removes start button so i can place the multiple choice answers
         $("startButton").remove();
         time--;
         document.getElementById("time").textContent = "Time: " + time;
@@ -89,7 +81,6 @@ function startQuiz() {
     // after this, each created button element will just be updated 
     if (quizIndex == 0) {
         secondRow.textContent = quiz[0].question;
-        // console.log(quiz[0].question);
         var ol = document.createElement("ol");
         ol.setAttribute("id", "ol");
         //not sure if this for loop will work or if i can use quiz[i].question.answers
@@ -100,8 +91,6 @@ function startQuiz() {
 
             // setting an id to act as the index 
             btn.setAttribute("id", j);
-
-            // btn.setAttribute("data-index", j);
             btn.textContent = quiz[quizIndex].answers[j];
 
             li.appendChild(btn);
@@ -110,23 +99,13 @@ function startQuiz() {
         }
         buttons.appendChild(ol);
     }
-
+// add event listener for the ordered list elements, event delegation
     ol.addEventListener("click", nextQuestion);
 }
 
-//for a split second shows the correct words but quickly defaults back to original html content
+//redirects to the high scores web page
 function viewScores() {
-    // console.log("You clicked the scores");
-    header.textContent = "High Scores";
-    var listOfScores = document.createElement("ol");
-    for (var i = 0; i < scores.length; i++) {
-        var li = document.createElement("li");
-        li.textContent = scores[i];
-        listOfScores.appendChild(li);
-    }
-    
-    secondRow.appendChild(listOfScores);
-
+    window.location.href = "highScores.html";
 }
 
 //function for event delegation (matches button)
@@ -134,24 +113,26 @@ function viewScores() {
 //   update score to local storage
 
 function nextQuestion(event) {
-  
+    // only do this code if it is a li element button 
     if(event.target.matches("button")) {
     
-        // Check the clicked-button's id and compare with the 
-        // correct answer
+        
         var selected = event.target.getAttribute("id");
         var status = document.getElementById("status");
         var grade = document.getElementById("rightOrWrong");
+        // Check the clicked-button's id and compare with the 
+        // correct answer
         if (selected == quiz[quizIndex].correctAnswer) {
-            
             grade.textContent = "Correct!";
+            // this toggles the class for changing visibility 
             status.setAttribute("class", "col-md-6 visible");
-            
         } else {
+            //time penalty for wrong answer
             time -= 20;
             document.getElementById("rightOrWrong").textContent = "Wrong!";
             status.setAttribute("class", "col-md-6 visible");
         };
+        // this interval is for the vanishing correct/wrong status 
         var timeFade = 1000;
         var vanishEffect = setInterval(function () {
            
@@ -164,6 +145,8 @@ function nextQuestion(event) {
             }
         }, 1000);
         document.getElementById("status").style.display = "block";
+        // updates the quiz index for the next question 
+        // when it reaches the end of the quiz, it will end the interval 
         quizIndex++;
         if (quizIndex == 4) {
             clearInterval(interval);
@@ -177,40 +160,38 @@ function nextQuestion(event) {
         } else {
             // go to next question when an answer is clicked
             secondRow.textContent = quiz[quizIndex].question;
-            // var j = 0; 
-            // while (j < 4) {
+            
             for (var j = 0; j < 4; j++) {
                 // grab each button by id to change the current multiple 
                 // choice answer to the updated question
                 var btn = document.getElementById(j);
-                btn.textContent = quiz[quizIndex].answers[j];
-                // console.log(btn);
-                
-            }
-            // var selected = event.target.getAttribute("id");
-            // console.log(selected);
-            
+                btn.textContent = quiz[quizIndex].answers[j];            
+            }   
         }
     }
 };
 
+// this creates the form for score submission 
 function createForm() {
+    // clear buttons for new list 
     $("#buttons").empty();
     var formEl = document.createElement("form");
     formEl.setAttribute("class", "form-group row");
     formEl.setAttribute("id", "form");
     
-
+    // creates and appends label element 
     var labelEl = document.createElement("label");
     labelEl.setAttribute("for", "staticEmail");
     labelEl.setAttribute("class", "col-sm-2 col-form-label");
     labelEl.textContent = "Enter initials:";
     formEl.appendChild(labelEl);
 
+    // creates a div for bootstrap container purposes 
     var divInput = document.createElement("div");
     divInput.setAttribute("class", "col-sm-5");
     formEl.appendChild(divInput);
 
+    // creates and appends the input element for the form 
     var inputEl = document.createElement("input");
     inputEl.setAttribute("type", "text");
     inputEl.setAttribute("class", "form-control");
@@ -218,6 +199,7 @@ function createForm() {
     divInput.appendChild(inputEl);
     formEl.appendChild(divInput);
 
+    // creates and appends the submit button 
     var btnDiv = document.createElement("button");
     btnDiv.setAttribute("type", "submit");
     btnDiv.setAttribute("class", "btn btn-primary mb-2");
@@ -228,36 +210,38 @@ function createForm() {
     formEl.appendChild(btnDiv);
 
     secondRow.appendChild(formEl);
-
-    // btnDiv.addEventListener("submit", submitScore);
     
 }
 
 function submitScore(event){
-    
+    // avoid refreshing page 
     event.preventDefault();
+    // check if score Array exists, then creates new array or retrieves current
+    //based on condition
     if (localStorage.getItem("scoreArray")) {
         var scoreArray = JSON.parse(localStorage.getItem("scoreArray"));
+        //save user input
         var scoreText = document.getElementById("inputText").value + " - " + time;
+        // push new answer to current array 
         scoreArray.push(scoreText);
+        // set new array to local storage 
         localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
+        // go to high scores page 
         window.location.assign("highScores.html");
 
-    } else {
+    } else { //same thing as if condition but creates new empty array
         var scoreArray = [];
         var scoreText = document.getElementById("inputText").value + " - " + time;
         scoreArray.push(scoreText);
         localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
         window.location.assign("highScores.html");
     }
-
-    console.log(typeof scoreArray);
-    
-    console.log("Variable type of scoreText " + typeof scoreText);
+    // console.log(typeof scoreArray);
+    // console.log("Variable type of scoreText " + typeof scoreText);
 
 };
 
-
+//starts quiz
 start.addEventListener("click", startQuiz);
 highScores.addEventListener("click", viewScores); //change to event delegation based on class="viewScores" with
 //score submit button and the top left "view highscores" button
