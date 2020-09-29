@@ -23,6 +23,7 @@ for (var i = sorted.length - 1; i >= 0; i--) {
     var liEl = document.createElement("li");
     
     liEl.textContent = sorted[i];
+    
     olEl.appendChild(liEl);
 }
     

@@ -49,10 +49,10 @@ var quiz = [
     {
         question: "The condition in an if/else statement is enclosed by ______.",
         answers: [
-            "{}",
-            "()",
-            "[]",
-            "<>"
+            "{ }",
+            "( )",
+            "[ ]",
+            "< >"
         ],
         correctAnswer: 1
     },
@@ -80,7 +80,9 @@ function startQuiz() {
     // only setting first question up in here with creating elements.
     // after this, each created button element will just be updated 
     if (quizIndex == 0) {
-        secondRow.textContent = quiz[0].question;
+        questionTitle.textContent = "";
+        secondRow.textContent = quiz[0].question; //was secondRow.
+        secondRow.setAttribute("class", "col-md-6 question");
         var ol = document.createElement("ol");
         ol.setAttribute("id", "ol");
         //not sure if this for loop will work or if i can use quiz[i].question.answers
@@ -159,7 +161,7 @@ function nextQuestion(event) {
 
         } else {
             // go to next question when an answer is clicked
-            secondRow.textContent = quiz[quizIndex].question;
+            secondRow.textContent = quiz[quizIndex].question; //was secondRow.
             
             for (var j = 0; j < 4; j++) {
                 // grab each button by id to change the current multiple 
@@ -182,7 +184,7 @@ function createForm() {
     // creates and appends label element 
     var labelEl = document.createElement("label");
     labelEl.setAttribute("for", "staticEmail");
-    labelEl.setAttribute("class", "col-sm-2 col-form-label");
+    labelEl.setAttribute("class", "col-sm-4 col-form-label");
     labelEl.textContent = "Enter initials:";
     formEl.appendChild(labelEl);
 
