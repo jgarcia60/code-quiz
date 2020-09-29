@@ -1,6 +1,6 @@
 var secondRow = document.getElementById("secondRow");
 var olEl = document.getElementById("olEl");
-
+var clearBtn = document.getElementById("clearScores");
 
     var scoreArray = JSON.parse(localStorage.getItem("scoreArray"));
     console.log(typeof scoreArray);
@@ -27,8 +27,9 @@ var olEl = document.getElementById("olEl");
     }
     
 // }
-function clearScores(event) {
-    event.target.empty();
+function clearScores() {
+    localStorage.removeItem("scoreArray");
+    olEl.remove();
 }
 
 
@@ -38,4 +39,4 @@ document.getElementById("goBack").addEventListener("click", function() {
     window.location.href = "index.html";
 })
 
-olEl.addEventListener("click", clearScores);
+clearBtn.addEventListener("click", clearScores);
