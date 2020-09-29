@@ -56,14 +56,15 @@ var quiz = [
     },
 
 ];
-var scores = [];
-
+// var scores = [];
+// console.log(typeof(scores));
+// init();
 // function init() {
-//     var storedScores = JSON.parse(localStorage.getItem("scores"));
+//     var scoreArray = localStorage.getItem("scores");
 
-//     if (storedScores !== null) {
-//         scores = storedScores;
-//     }
+//     // if (scores !== null) {
+//     //     scores = storedScores;
+//     // }
 // }
 
 function startQuiz() {
@@ -139,15 +140,29 @@ function nextQuestion(event) {
         // Check the clicked-button's id and compare with the 
         // correct answer
         var selected = event.target.getAttribute("id");
+        var status = document.getElementById("status");
+        var grade = document.getElementById("rightOrWrong");
         if (selected == quiz[quizIndex].correctAnswer) {
-            var status = document.getElementById("rightOrWrong");
-            status.textContent = "Correct!";
+            
+            grade.textContent = "Correct!";
+            status.setAttribute("class", "col-md-6 visible");
+            
         } else {
-            time -= 10;
-
-            var status = document.getElementById("rightOrWrong");
-            status.textContent = "Wrong!";
+            time -= 20;
+            document.getElementById("rightOrWrong").textContent = "Wrong!";
+            status.setAttribute("class", "col-md-6 visible");
         };
+        var timeFade = 1000;
+        var vanishEffect = setInterval(function () {
+           
+            if (timeFade > 0) {
+                timeFade -= 1000;
+                
+            } else {
+                clearInterval(vanishEffect);
+                status.setAttribute("class", "col-md-6 hidden");
+            }
+        }, 1000);
         document.getElementById("status").style.display = "block";
         quizIndex++;
         if (quizIndex == 4) {
@@ -176,8 +191,6 @@ function nextQuestion(event) {
             // console.log(selected);
             
         }
-        
-        
     }
 };
 
@@ -221,21 +234,30 @@ function createForm() {
 }
 
 function submitScore(event){
+    
     event.preventDefault();
-    var scoreText = document.getElementById("inputText").value + " - " + time;
-    console.log(scoreText);
+    if (localStorage.getItem("scoreArray")) {
+        var scoreArray = JSON.parse(localStorage.getItem("scoreArray"));
+        var scoreText = document.getElementById("inputText").value + " - " + time;
+        scoreArray.push(scoreText);
+        localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
+        window.location.assign("highScores.html");
 
-
-    if (scoreText === "") {
-        return;
+    } else {
+        var scoreArray = [];
+        var scoreText = document.getElementById("inputText").value + " - " + time;
+        scoreArray.push(scoreText);
+        localStorage.setItem("scoreArray", JSON.stringify(scoreArray));
+        window.location.assign("highScores.html");
     }
 
-    scores.push(scoreText);
-    document.getElementById("inputText").value = "";
-    localStorage.setItem("scores", JSON.stringify(scores));
-    window.location.href = "highScores.html";
+    console.log(typeof scoreArray);
+    
+    console.log("Variable type of scoreText " + typeof scoreText);
+
 };
 
 
 start.addEventListener("click", startQuiz);
-highScores.addEventListener("click", viewScores);
+highScores.addEventListener("click", viewScores); //change to event delegation based on class="viewScores" with
+//score submit button and the top left "view highscores" button

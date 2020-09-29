@@ -1,23 +1,36 @@
 var secondRow = document.getElementById("secondRow");
+var olEl = document.getElementById("olEl");
 
-var scores = localStorage.getItem("scores");
-console.log(typeof scores);
-console.log(scores.length);
 
-// scores.forEach(logValues);
+    var scoreArray = JSON.parse(localStorage.getItem("scoreArray"));
+    console.log(typeof scoreArray);
+    console.log(scoreArray.length);
 
-// function logValues(value) {
-//     console.log(value);
-// };
+    // scores.forEach(logValues);
 
-// for (var i = scores.length - 1; i >= 0; i--) {
-//     var olEl = document.createElement("ol");
-//     var liEl = document.createElement("li");
-//     liEl.textContent = scores[i];
-//     olEl.appendChild(liEl);
-//     secondRow.appendChild(olEl);
+    // function logValues(value) {
+    //     console.log(value);
+    // };
+    var sorted = scoreArray.sort(function(currVal,nextVal) {
+        var currScore = currVal.split(' - ')[1]
+        var nextScore = nextVal.split(' - ')[1]
+        return currScore - nextScore;
+    })
+    console.log('SORTED ARRAY---> ', sorted);
+    for (var i = sorted.length - 1; i >= 0; i--) {
+        var liEl = document.createElement("li");
+        // var splitArray = sorted[i].split(' - ')
+        // var score = splitArray[1];
+        // var initials = splitArray[0];
+        liEl.textContent = sorted[i];
+        olEl.appendChild(liEl);
+    }
+    
 // }
-// secondRow.appendChild(olEl);
+function clearScores(event) {
+    event.target.empty();
+}
+
 
 //go back to code quiz function
 document.getElementById("goBack").addEventListener("click", function() {
@@ -25,6 +38,4 @@ document.getElementById("goBack").addEventListener("click", function() {
     window.location.href = "index.html";
 })
 
-function clearScores() {
-    // remove scores 
-}
+olEl.addEventListener("click", clearScores);

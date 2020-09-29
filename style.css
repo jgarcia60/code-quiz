@@ -12,7 +12,7 @@ h1, p {
 }
 
 #status {
-    display: none;
+    width: auto;
     text-align: left;
     color: lightgray;
 }
@@ -30,3 +30,15 @@ h1, p {
 #staticEmail {
     border: black;
 }
+
+.hidden, .visible {
+    visibility: hidden;
+    width: auto;
+    color: lightgray;
+}
+
+/* .visible {
+    visibility: visible;
+    width: auto;
+    color: lightgray;
+} */
