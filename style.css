@@ -1,22 +1,28 @@
+/* align main container  */
 main {
     padding-top: 50px;
     text-align: center;
 }
 
+/* center h1 and p elements  */
 h1, p {
     text-align: center;
 }
 
+/* font properties for the question in the quiz  */
 .question {
     font-weight: 800;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+/* nav bar item align to the right  */
 #time {
     text-align: right;
 }
 
+/* make the buttons pretty  */
 #startButton, #submitButton, button {
     background-color: rgb(139, 65, 139);
     color: white;
@@ -29,6 +35,8 @@ h1, p {
     display: inline-block;
     border-radius: 5px;
 }
+
+/* make the multiple choice answers readable  */
 li {
     /* background-color: rgb(136, 66, 136);
     color: white; */
@@ -41,24 +49,30 @@ li {
     align-items: center;
 }
 
+/* align wrong or correct status  */
 #status {
     width: auto;
     text-align: left;
     color: lightgray;
 }
 
+/* align the wrong or right status to the left  */
 #rightOrWrong {
     text-align: left;
     color: lightgray;
     margin-left: 5%;
 }
 
+
+/* style the form  */
 #form {
     padding: 0;
     margin: 0;
     align-items: center;
 }
 
+
+/* make border for form  */
 #staticEmail {
     border: black;
 }
